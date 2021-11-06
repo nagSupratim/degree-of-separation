@@ -4,17 +4,23 @@ import TwoInputForm from '../InputForms/TwoInputForm';
 
 const DegreeOfSeparation: React.FC = () => {
   const appCtx = useContext(AppContext);
-  const user1Ref = useRef<HTMLInputElement>(null);
-  const user2Ref = useRef<HTMLInputElement>(null);
+  const user1Ref = useRef<HTMLParagraphElement>(null);
+  const user2Ref = useRef<HTMLParagraphElement>(null);
+  const options = appCtx.users.map((user) => ({
+    value: user.name,
+    label: user.name,
+  }));
 
   const findSeparationsHandler = (event: React.FormEvent) => {
     event.preventDefault();
-    if (!user1Ref.current || !user2Ref.current) return;
-    appCtx.onSearch(user1Ref.current.value, user2Ref.current.value);
-    user1Ref.current.value = '';
-    user1Ref.current.blur();
-    user2Ref.current.value = '';
-    user2Ref.current.blur();
+    if (
+      !user1Ref.current ||
+      !user2Ref.current ||
+      !user1Ref.current.textContent ||
+      !user2Ref.current.textContent
+    )
+      return;
+    appCtx.onSearch(user1Ref.current.textContent, user2Ref.current.textContent);
   };
 
   return (
@@ -29,6 +35,7 @@ const DegreeOfSeparation: React.FC = () => {
         user2Placeholder="Person 2"
         btnText="Search"
         hasReadonlyInput={false}
+        options={options}
       />
     </div>
   );

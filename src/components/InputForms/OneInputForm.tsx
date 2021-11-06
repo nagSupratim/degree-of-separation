@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Card, Form } from 'react-bootstrap';
 
 const OneInputForm: React.FC<{
@@ -11,6 +11,7 @@ const OneInputForm: React.FC<{
   mutedText: string;
   btnText: string;
 }> = (props) => {
+  const [name, setName] = useState('');
   return (
     <Card className="h-100">
       <Card.Header>
@@ -20,17 +21,27 @@ const OneInputForm: React.FC<{
         </Card.Subtitle>
       </Card.Header>
       <Card.Body>
-        <Form onSubmit={props.onSubmitHandler}>
+        <Form
+          onSubmit={(e: React.FormEvent) => {
+            props.onSubmitHandler(e);
+            setName('');
+          }}
+        >
           <Form.Group className="mb-3">
             <Form.Label>{props.label}</Form.Label>
             <Form.Control
               type="text"
               placeholder={props.placeholder}
               ref={props.userRef}
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
             />
             <Form.Text className="text-muted">{props.mutedText}</Form.Text>
           </Form.Group>
-          <Button variant="primary" type="submit">
+
+          <Button variant="primary" type="submit" disabled={name === ''}>
             {props.btnText}
           </Button>
         </Form>
