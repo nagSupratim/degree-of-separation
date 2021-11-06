@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Card } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import User from '../../../models/user';
 
 const SingleUser: React.FC<{ user: User }> = (props) => {
